@@ -12,11 +12,11 @@ function App() {
         <a href="https://launchdarkly.com" target="_blank" rel="noopener noreferrer" style={{ marginRight: '20px' }}>
           <picture>
             <source srcSet={ldLogoWhite} media="(prefers-color-scheme: dark)" />
-            <img src={ldLogoBlack} className="logo launchdarkly" alt="LaunchDarkly logo" style={{ height: '100px' }} />
+            <img src={ldLogoBlack} className="logo launchdarkly" alt="LaunchDarkly logo" />
           </picture>
         </a>
         <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" style={{ height: '100px' }} />
+          <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
         <FlagDemo />
       </div>
