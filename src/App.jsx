@@ -1,6 +1,6 @@
 import FlagDemo from './components/FlagDemo'
 import reactLogo from './assets/react.svg'
-import ldLogoBlack from './assets/LD_logo_black.png'
+import ldLogoBlack from './assets/ld_logo_black.png'
 import ldLogoWhite from './assets/lg_logo_white.png'
 import './App.css'
 
