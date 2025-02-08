@@ -1,0 +1,23 @@
+{
+    "name": "LaunchDarkly React Logger Demo",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "web",
+    "workspaceFolder": "/app",
+    "forwardPorts": [5173],
+    "portsAttributes": {
+      "5173": {
+        "protocol": "http",
+        "label": "LaunchDarkly React Logger Demo"
+      }
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "dbaeumer.vscode-eslint",
+          "esbenp.prettier-vscode",
+          "dsznajder.es7-react-js-snippets"
+        ]
+      }
+    },
+    "remoteUser": "node"
+  }
