@@ -112,11 +112,12 @@ function FlagDemo() {
 
   return (
     <div style={{ 
-      padding: '30px',
+      padding: '20px',
       border: '2px solid #007bff',
       borderRadius: '8px',
-      margin: '30px auto',
+      margin: '20px auto',
       maxWidth: '600px',
+      width: '90%',
       backgroundColor: '#f8f9fa'
     }}>
       <h2 style={{ color: '#007bff', marginBottom: '20px' }}>LaunchDarkly React Logger Utility Demo</h2>
