@@ -4,7 +4,16 @@ This React application demonstrates the usage of the LaunchDarkly React Logger u
 
 ## Overview
 
-The application showcases a logging utility that allows real-time control of both console and SDK logging levels through LaunchDarkly feature flags. This enables dynamic adjustment of logging verbosity without requiring application redeployment.
+The application showcases a logging utility that allows real-time control of both console and SDK logging levels through LaunchDarkly feature flags. This enables dynamic adjustment of logging verbosity without requiring application redeployment. The application supports user authentication and per-user log level configuration through LaunchDarkly's multicontext targeting.
+
+### Key Features
+
+- **User Authentication**: Simple username-based authentication system
+- **Per-User Log Level Control**: Set different log levels for different users using LaunchDarkly targeting rules
+- **Dual Log Level Management**: Control both application console logs and SDK internal logs
+- **Real-Time Updates**: Changes to log levels take effect immediately without page reload
+- **Responsive Design**: Optimized layout for mobile, tablet, and desktop displays
+- **Dark Mode Support**: Automatic dark mode detection for logo display
 
 ## Configuration
 
@@ -19,9 +28,9 @@ VITE_LD_SDK_LOG_FLAG_KEY=your-sdk-log-flag-key
 VITE_LD_CONSOLE_LOG_FLAG_KEY=your-console-log-flag-key
 ```
 
-2. Configure your LaunchDarkly feature flags:
+2. Configure your LaunchDarkly feature flags and targeting:
 
-#### Required Feature Flags
+#### Required Feature Flags and Targeting Setup
 
 1. **Application Console Log Level Flag** (Number type)
    - Controls which application log messages appear in the browser console
@@ -40,6 +49,35 @@ VITE_LD_CONSOLE_LOG_FLAG_KEY=your-console-log-flag-key
    - Flag key: `sdk-log-level`
    - Type: String
    - Possible values: 'error', 'warn', 'info', 'debug'
+
+#### Multicontext Targeting
+
+The application uses LaunchDarkly's multicontext feature for sophisticated targeting:
+
+1. **User Context**
+   - `kind: 'user'`
+   - Properties:
+     - `key`: Username
+     - `name`: Username
+     - `anonymous`: false
+
+2. **Application Context**
+   - `kind: 'application'`
+   - Properties:
+     - `key`: 'react-logger-demo'
+     - `name`: 'React Logger Demo'
+     - `version`: Current application version
+
+This multicontext setup enables:
+- Setting different log levels for different users
+- Targeting based on application version or environment
+- Combining user and application rules for granular control
+
+Example targeting scenarios:
+- Set DEBUG level for specific users (e.g., developers)
+- Set INFO level for general users
+- Override levels for specific application versions
+- Create rules combining user roles and application states
 
 ### Logger Configuration
 
@@ -68,7 +106,9 @@ npm run dev
 
 ## Using the Demo
 
-1. Open your browser's developer console (F12 or right-click > Inspect > Console)
+1. Log in with any username (this will be used for targeting rules)
+
+2. Open your browser's developer console (F12 or right-click > Inspect > Console)
 
 2. Click the "Generate Log Events" button in the UI to:
    - Evaluate current feature flags
@@ -104,7 +144,7 @@ Additional utility methods:
 2. Change the `sdk-log-level` flag to control the LaunchDarkly SDK's internal logging:
    - Options: 'error', 'warn', 'info', 'debug'
 
-Changes to these flags will take effect immediately without requiring a page reload.
+Changes to these flags will take effect immediately without requiring a page reload. When changing the SDK log level, you'll be automatically logged out to ensure proper initialization with the new settings.
 
 ## Implementation Details
 

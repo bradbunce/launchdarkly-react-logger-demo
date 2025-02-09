@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLDClient } from '../contexts/LaunchDarklyContext';
 import { useLogger } from '@bradbunce/launchdarkly-react-logger';
 import { logger } from '../config/logger';
+import { useAuth } from '../contexts/AuthContext';
 import reactLogo from '../assets/react.svg';
 import ldLogoBlack from '../assets/ld_logo_black.png';
 import ldLogoWhite from '../assets/lg_logo_white.png';
@@ -23,13 +24,14 @@ function FlagDemo() {
   const [lastEvalTime, setLastEvalTime] = useState(null);
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const ldClient = useLDClient();
+  const { logout } = useAuth();
 
   // Function to update console log level
   const updateConsoleLogLevel = useCallback(async () => {
     if (!ldClient) return;
     try {
-      const level = await ldClient.variation('console-log-level', 3);
-      setConsoleLogLevel(level);
+      const result = await ldClient.variationDetail('console-log-level', 3, { kind: 'multi' });
+      setConsoleLogLevel(result.value);
     } catch (error) {
       console.error('Error getting console log level:', error);
     }
@@ -39,8 +41,8 @@ function FlagDemo() {
   const updateSdkLogLevel = useCallback(async () => {
     if (!ldClient) return;
     try {
-      const level = await ldClient.variation('sdk-log-level', 'info');
-      setSdkLogLevel(level);
+      const result = await ldClient.variationDetail('sdk-log-level', 'info', { kind: 'multi' });
+      setSdkLogLevel(result.value);
     } catch (error) {
       console.error('Error getting SDK log level:', error);
     }
@@ -77,16 +79,20 @@ function FlagDemo() {
   // Function to evaluate flags and generate events
   const evaluateFlags = useCallback(async () => {
     try {
-      const consoleLevel = await ldClient.variation('console-log-level', 3);
-      const sdkLevel = await ldClient.variation('sdk-log-level', 'info');
+      const consoleResult = await ldClient.variationDetail('console-log-level', 3, { kind: 'multi' });
+      const sdkResult = await ldClient.variationDetail('sdk-log-level', 'info', { kind: 'multi' });
 
       // Update state with latest values
-      setConsoleLogLevel(consoleLevel);
-      setSdkLogLevel(sdkLevel);
+      setConsoleLogLevel(consoleResult.value);
+      setSdkLogLevel(sdkResult.value);
 
       log.info('Flag evaluation results:', {
-        'console-log-level': `${consoleLevel} (${LOG_LEVEL_NAMES[consoleLevel]})`,
-        'sdk-log-level': sdkLevel
+        'console-log-level': `${consoleResult.value} (${LOG_LEVEL_NAMES[consoleResult.value]})`,
+        'sdk-log-level': sdkResult.value,
+        'evaluation-reason': {
+          'console-log-level': consoleResult.reason,
+          'sdk-log-level': sdkResult.reason
+        }
       });
 
       // Generate different types of logs to test levels
@@ -99,7 +105,10 @@ function FlagDemo() {
       log.trace('🟣 Testing trace log');
       log.groupEnd();
 
-      return { consoleLevel, sdkLevel };
+      return { 
+        consoleLevel: consoleResult.value, 
+        sdkLevel: sdkResult.value 
+      };
     } catch (error) {
       console.error('Error evaluating flags:', error);
       return null;
@@ -122,7 +131,25 @@ function FlagDemo() {
         margin: 0,
         padding: 0
       }}>
-        <div className="flag-demo-container">
+        <div className="flag-demo-container" style={{ position: 'relative' }}>
+          <button
+            onClick={() => logout()}
+            style={{
+              position: 'absolute',
+              top: '15px',
+              right: '15px',
+              padding: '8px 16px',
+              fontSize: '12px',
+              backgroundColor: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              transition: 'background-color 0.2s'
+            }}
+          >
+            Logout
+          </button>
         <div style={{ marginBottom: '20px' }}>
           <a href="https://launchdarkly.com" target="_blank" rel="noopener noreferrer" style={{ marginRight: '20px' }}>
             <picture>

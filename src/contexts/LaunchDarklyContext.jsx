@@ -32,9 +32,15 @@ const SdkLogLevelHandler = () => {
         console.error('🚩 SDK Log Level Change:', {
           stored: storedValue || 'none (using default)',
           new: newValue,
-          action: 'Refresh required to take effect'
+          action: 'Please log in again to apply new logging settings'
         });
         localStorage.setItem('ld-sdk-log-level', newValue);
+        
+        // Store the message before logout
+        sessionStorage.setItem('logoutMessage', 'Session updated. Please log in again to apply new logging settings.');
+        
+        // Clear user data and reload
+        localStorage.removeItem('demoUser');
         window.location.reload();
       }
     };
@@ -124,22 +130,27 @@ WrappedComponent.propTypes = {
 };
 
 // Export the LaunchDarkly provider
-export const LDProvider = ({ children }) => {
+export const LDProvider = ({ children, user }) => {
   logger.debug('LDProvider rendering');
   
   // Initialize with stored or default SDK log level
   const sdkLogLevel = localStorage.getItem('ld-sdk-log-level') || 'info';
   console.error('🔧 Initializing LaunchDarkly SDK with log level:', sdkLogLevel);
 
-  // Initialize with current SDK log level
+  // Initialize with current SDK log level and user context
   const LDComponent = withLDProvider({
     clientSideID: import.meta.env.VITE_LD_CLIENT_ID,
+    context: {
+      kind: 'multi',
+      user,
+      application: {
+        kind: 'application',
+        key: 'react-logger-demo',
+        name: 'React Logger Demo',
+        version: import.meta.env.VITE_APP_VERSION || '0.0.1'
+      }
+    },
     options: {
-      // Use SDK's built-in basicLogger which automatically uses appropriate console methods:
-      // - console.log for debug
-      // - console.info for info
-      // - console.warn for warnings
-      // - console.error for errors
       logger: basicLogger({ level: sdkLogLevel })
     }
   })(WrappedComponent);
@@ -148,7 +159,13 @@ export const LDProvider = ({ children }) => {
 };
 
 LDProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  user: PropTypes.shape({
+    kind: PropTypes.string,
+    key: PropTypes.string.isRequired,
+    anonymous: PropTypes.bool,
+    name: PropTypes.string
+  }).isRequired
 };
 
 // Export hook to access LaunchDarkly client
