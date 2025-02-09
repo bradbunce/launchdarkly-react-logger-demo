@@ -23,7 +23,8 @@ VITE_LD_CONSOLE_LOG_FLAG_KEY=your-console-log-flag-key
 
 #### Required Feature Flags
 
-1. **Console Log Level Flag** (Number type)
+1. **Application Console Log Level Flag** (Number type)
+   - Controls which application log messages appear in the browser console
    - Flag key: `console-log-level`
    - Type: Number (0-5)
    - Values:
@@ -34,7 +35,8 @@ VITE_LD_CONSOLE_LOG_FLAG_KEY=your-console-log-flag-key
      - 4: DEBUG ⚪ (Debug information)
      - 5: TRACE 🟣 (Most detailed information)
 
-2. **SDK Log Level Flag** (String type)
+2. **LaunchDarkly SDK Log Level Flag** (String type)
+   - Controls the internal logging level of the LaunchDarkly SDK client itself
    - Flag key: `sdk-log-level`
    - Type: String
    - Possible values: 'error', 'warn', 'info', 'debug'
