@@ -46,3 +46,28 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Responsive container styles */
+.flag-demo-container {
+  padding: 15px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
+  background-color: #f8f9fa;
+}
+
+/* Tablet breakpoint */
+@media (min-width: 768px) {
+  .flag-demo-container {
+    max-width: 600px;
+  }
+}
+
+/* Desktop breakpoint */
+@media (min-width: 1024px) {
+  .flag-demo-container {
+    max-width: 800px;
+  }
+}

@@ -122,15 +122,7 @@ function FlagDemo() {
         margin: 0,
         padding: 0
       }}>
-        <div style={{ 
-        padding: '20px',
-        border: '2px solid #007bff',
-        borderRadius: '8px',
-        margin: '20px 10px',
-        maxWidth: '600px',
-        width: 'calc(100% - 20px)',
-        backgroundColor: '#f8f9fa'
-      }}>
+        <div className="flag-demo-container">
         <div style={{ marginBottom: '20px' }}>
           <a href="https://launchdarkly.com" target="_blank" rel="noopener noreferrer" style={{ marginRight: '20px' }}>
             <picture>
@@ -153,7 +145,7 @@ function FlagDemo() {
       }}>
         <h3 style={{ color: '#333', marginBottom: '15px', fontSize: '1.1em' }}>Current Flag Values:</h3>
         <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: '200px', border: '1px solid #dee2e6', borderRadius: '6px', padding: '12px' }}>
+          <div style={{ flex: 1, minWidth: '160px', border: '1px solid #dee2e6', borderRadius: '6px', padding: '10px' }}>
             <h4 style={{ 
               color: '#007bff', 
               marginBottom: '4px', 
@@ -195,7 +187,7 @@ function FlagDemo() {
               0=FATAL, 1=ERROR, 2=WARN, 3=INFO, 4=DEBUG, 5=TRACE
             </p>
           </div>
-          <div style={{ flex: 1, minWidth: '200px', border: '1px solid #dee2e6', borderRadius: '6px', padding: '12px' }}>
+          <div style={{ flex: 1, minWidth: '160px', border: '1px solid #dee2e6', borderRadius: '6px', padding: '10px' }}>
             <h4 style={{ 
               color: '#007bff', 
               marginBottom: '4px', 
@@ -256,8 +248,10 @@ function FlagDemo() {
             }
           }}
           style={{
-            padding: '12px 24px',
-            fontSize: '16px',
+            padding: '10px 20px',
+            fontSize: '14px',
+            maxWidth: '200px',
+            margin: '0 auto',
             backgroundColor: '#007bff',
             color: 'white',
             border: 'none',
@@ -266,7 +260,7 @@ function FlagDemo() {
             transition: 'background-color 0.2s'
           }}
         >
-          Generate Log Events ({demoCount})
+          Generate Log Events
         </button>
       </div>
       
